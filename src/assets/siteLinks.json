@@ -1,0 +1,22 @@
+[
+  {
+    "icon": "Cloud",
+    "name": "个人简介",
+    "path": "intro"
+  },
+  {
+    "icon": "Book",
+    "name": "简历",
+    "path": "resume"
+  },
+  {
+    "icon": "LaptopCode",
+    "name": "项目",
+    "path": "projects"
+  },
+  {
+    "icon": "Blog",
+    "name": "博客",
+    "path": "blog"
+  }
+]
