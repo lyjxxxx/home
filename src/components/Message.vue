@@ -4,9 +4,8 @@
     <!-- Logo -->
     <div class="logo">
       <img class="logo-img" :src="siteLogo" alt="logo" />
-      <div :class="{ name: true, 'text-hidden': true, long: siteUrl[0].length >= 6 }">
-        <span class="bg">{{ siteUrl[0] }}</span>
-        <span class="sm">.{{ siteUrl[1] }}</span>
+      <div class="name text-hidden">
+        <span class="bg">{{ siteName }}</span>
       </div>
     </div>
     <!-- 简介 -->
@@ -35,20 +34,10 @@ import { QuoteLeft, QuoteRight } from "@vicons/fa";
 import { Error } from "@icon-park/vue-next";
 import { mainStore } from "@/store";
 const store = mainStore();
+const siteName = "LYJ's Homepage";
 
 // 主页站点logo
 const siteLogo = import.meta.env.VITE_SITE_MAIN_LOGO;
-// 站点链接
-const siteUrl = computed(() => {
-  const url = import.meta.env.VITE_SITE_URL;
-  if (!url) return "imsyy.top".split(".");
-  // 判断协议前缀
-  if (url.startsWith("http://") || url.startsWith("https://")) {
-    const urlFormat = url.replace(/^(https?:\/\/)/, "");
-    return urlFormat.split(".");
-  }
-  return url.split(".");
-});
 
 // 简介区域文字
 const descriptionText = reactive({
@@ -103,36 +92,18 @@ watch(
       width: 100%;
       padding-left: 22px;
       transform: translateY(-8px);
-      font-family: "Pacifico-Regular";
+      white-space: nowrap;
 
       .bg {
-        font-size: 5rem;
-      }
-
-      .sm {
-        margin-left: 6px;
-        font-size: 2rem;
-        @media (min-width: 721px) and (max-width: 789px) {
-          display: none;
-        }
+        font-size: clamp(2.5rem, 6vw, 5rem);
+        font-family: "Pacifico-Regular";
+        text-shadow: 0 8px 24px rgb(0 0 0 / 25%);
       }
     }
     @media (max-width: 768px) {
       .logo-img {
         width: 100px;
       }
-      .name {
-        height: 128px;
-        .bg {
-          font-size: 4.5rem;
-        }
-      }
-    }
-
-    @media (max-width: 720px) {
-      max-width: 100%;
-    }
-  }
 
   .description {
     padding: 1rem;
@@ -166,6 +137,16 @@ watch(
       pointer-events: none;
     }
   }
+      .name {
+        height: 128px;
+      }
+    }
+
+    @media (max-width: 720px) {
+      max-width: 100%;
+    }
+  }
+
   // @media (max-width: 390px) {
   //   .logo {
   //     flex-direction: column;

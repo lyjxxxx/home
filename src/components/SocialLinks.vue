@@ -2,17 +2,17 @@
   <!-- 社交链接 -->
   <div class="social">
     <div class="link">
-      <a
-        v-for="item in socialLinks"
-        :key="item.name"
-        :href="item.url"
-        target="_blank"
-        @mouseenter="socialTip = item.tip"
-        @mouseleave="socialTip = '通过这里联系我吧'"
-      >
-        <img class="icon" :src="item.icon" height="24" />
-      </a>
-    </div>
+        <a
+          v-for="item in socialLinks"
+          :key="item.name"
+          :href="item.url"
+          target="_blank"
+          @mouseenter="socialTip = item.tip"
+          @mouseleave="socialTip = '通过这里联系我吧'"
+        >
+          <img class="icon" :src="getIconUrl(item.icon)" height="24" />
+        </a>
+      </div>
     <span class="tip">{{ socialTip }}</span>
   </div>
 </template>
@@ -22,6 +22,14 @@ import socialLinks from "@/assets/socialLinks.json";
 
 // 社交链接提示
 const socialTip = ref("通过这里联系我吧");
+
+const getIconUrl = (icon) => {
+  if (!icon) return icon;
+  if (icon.startsWith("/")) {
+    return `${import.meta.env.BASE_URL}${icon.slice(1)}`;
+  }
+  return icon;
+};
 </script>
 
 <style lang="scss" scoped>

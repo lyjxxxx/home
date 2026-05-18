@@ -11,6 +11,7 @@ import viteCompression from "vite-plugin-compression";
 // https://vitejs.dev/config/
 export default ({ mode }) =>
   defineConfig({
+    base: mode === 'production' ? '/home/' : '/',
     plugins: [
       vue(),
       AutoImport({
@@ -25,6 +26,7 @@ export default ({ mode }) =>
         workbox: {
           skipWaiting: true,
           clientsClaim: true,
+          navigateFallbackDenylist: [/^\/home\/files\//, /\.pdf$/],
           runtimeCaching: [
             {
               urlPattern: /(.*?)\.(js|css|woff2|woff|ttf)/, // js / css 静态资源缓存
@@ -42,52 +44,28 @@ export default ({ mode }) =>
             },
           ],
         },
-        manifest: {
-          name: loadEnv(mode, process.cwd()).VITE_SITE_NAME,
-          short_name: loadEnv(mode, process.cwd()).VITE_SITE_NAME,
-          description: loadEnv(mode, process.cwd()).VITE_SITE_DES,
-          display: "standalone",
-          start_url: "/",
-          theme_color: "#424242",
-          background_color: "#424242",
-          icons: [
-            {
-              src: "/images/icon/48.png",
-              sizes: "48x48",
-              type: "image/png",
-            },
-            {
-              src: "/images/icon/72.png",
-              sizes: "72x72",
-              type: "image/png",
-            },
-            {
-              src: "/images/icon/96.png",
-              sizes: "96x96",
-              type: "image/png",
-            },
-            {
-              src: "/images/icon/128.png",
-              sizes: "128x128",
-              type: "image/png",
-            },
-            {
-              src: "/images/icon/144.png",
-              sizes: "144x144",
-              type: "image/png",
-            },
-            {
-              src: "/images/icon/192.png",
-              sizes: "192x192",
-              type: "image/png",
-            },
-            {
-              src: "/images/icon/512.png",
-              sizes: "512x512",
-              type: "image/png",
-            },
-          ],
-        },
+        manifest: (() => {
+          const env = loadEnv(mode, process.cwd());
+          const base = mode === 'production' ? '/home/' : '/';
+          return {
+            name: env.VITE_SITE_NAME,
+            short_name: env.VITE_SITE_NAME,
+            description: env.VITE_SITE_DES,
+            display: 'standalone',
+            start_url: '/',
+            theme_color: '#424242',
+            background_color: '#424242',
+            icons: [
+              { src: `${base}images/icon/48.png`, sizes: '48x48', type: 'image/png' },
+              { src: `${base}images/icon/72.png`, sizes: '72x72', type: 'image/png' },
+              { src: `${base}images/icon/96.png`, sizes: '96x96', type: 'image/png' },
+              { src: `${base}images/icon/128.png`, sizes: '128x128', type: 'image/png' },
+              { src: `${base}images/icon/144.png`, sizes: '144x144', type: 'image/png' },
+              { src: `${base}images/icon/192.png`, sizes: '192x192', type: 'image/png' },
+              { src: `${base}images/icon/512.png`, sizes: '512x512', type: 'image/png' },
+            ],
+          };
+        })(),
       }),
       viteCompression(),
     ],
